@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
@@ -76,6 +77,13 @@ class RecyclerAdapter(
             itemView.setOnClickListener {
                 content.visibility = View.VISIBLE
             }
+
+            itemView.findViewById<ImageView>(R.id.ic_delete).setOnClickListener { removeItem() }
+        }
+
+        private fun removeItem() {
+            data.removeAt(layoutPosition)
+            notifyItemRemoved(layoutPosition)
         }
     }
 
@@ -84,10 +92,18 @@ class RecyclerAdapter(
             itemView.findViewById<AppCompatTextView>(R.id.title).text = data.title
             val content = itemView.findViewById<TextView>(R.id.content)
             content.text = data.content
+
             itemView.setOnClickListener {
 //                onListItemClickListener.onItemClick(data)
                 content.visibility = View.VISIBLE
             }
+
+            itemView.findViewById<ImageView>(R.id.ic_delete).setOnClickListener { removeItem() }
+        }
+
+        private fun removeItem() {
+            data.removeAt(layoutPosition)
+            notifyItemRemoved(layoutPosition)
         }
     }
 
