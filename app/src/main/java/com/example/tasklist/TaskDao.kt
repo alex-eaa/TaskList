@@ -19,10 +19,10 @@ interface TaskDao {
     @Query("SELECT * FROM TaskEntity ORDER BY dateCreation DESC")
     fun allTaskByDateDesc(): LiveData<List<TaskEntity>>
 
-    @Query("SELECT * FROM TaskEntity ORDER BY isHighPriority")
+    @Query("SELECT * FROM TaskEntity ORDER BY type")
     fun allTaskByPriority(): LiveData<List<TaskEntity>>
 
-    @Query("SELECT * FROM TaskEntity ORDER BY isHighPriority DESC")
+    @Query("SELECT * FROM TaskEntity ORDER BY type DESC")
     fun allTaskByPriorityDesc(): LiveData<List<TaskEntity>>
 
 

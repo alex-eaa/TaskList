@@ -7,7 +7,7 @@ fun convertTaskToEntity(task: Task): TaskEntity {
         position = task.position,
         title = task.title,
         content = task.content,
-        isHighPriority = task.isHighPriority.toString(),
+        type = task.type,
         isCompleted = task.isCompleted.toString(),
         dateCreation = task.dateCreation,
     )
@@ -20,7 +20,7 @@ fun convertEntityToTask(taskEntity: TaskEntity): Task {
         position = taskEntity.position,
         title = taskEntity.title,
         content = taskEntity.content,
-        isHighPriority = taskEntity.isHighPriority.toBoolean(),
+        type = taskEntity.type,
         isCompleted = taskEntity.isCompleted.toBoolean(),
         dateCreation = taskEntity.dateCreation,
     )

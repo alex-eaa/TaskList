@@ -10,7 +10,7 @@ data class TaskEntity(
     var position: Int,
     var title: String,
     var content: String,
-    var isHighPriority: String,
+    var type: Int,
     var isCompleted: String,
     var dateCreation: String
 )

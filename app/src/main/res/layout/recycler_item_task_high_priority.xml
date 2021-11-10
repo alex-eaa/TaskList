@@ -82,14 +82,20 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/content"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="6dp"
         android:gravity="fill_horizontal"
         android:textSize="14sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline1"
         tools:text=" qweeqw qwnvasmf vmsdfmads fasdhfshjfg weg lqwiefgasldfg jashdgfj,sadhfg as,hfg agfhgdj,fasf mjgwekuy gfajgjh ertwter wertwer sdf gd gsd gfsr et wert ew t" />
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#000"
+        app:layout_constraintBottom_toBottomOf="@+id/content"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

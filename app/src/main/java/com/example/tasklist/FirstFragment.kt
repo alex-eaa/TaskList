@@ -48,17 +48,9 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.adapter = adapter
+        initView()
 
-        viewModel.saveTaskToDB(
-            Task(null, 1, "Task 1", "text text sdasdfsd asd sd asd ", false, false, "2021-10")
-        )
-        viewModel.saveTaskToDB(
-            Task(null, 2, "Task 2", "text2 text2 text2 asd af dad a fd ", false, false, "2021-10")
-        )
-        viewModel.saveTaskToDB(
-            Task(null, 3, "Задача 3", "text2 text2 text2 asd af dad a fd  ывоарплфыва ыфвларопфлоырапфыл валоыврп аылфв", true, false, "2021-10")
-        )
+        binding.recyclerView.adapter = adapter
 
         viewModel.taskLiveData
             .observe(viewLifecycleOwner, {
@@ -70,6 +62,37 @@ class FirstFragment : Fragment() {
             })
         viewModel.getAllTask()
     }
+
+    private fun initView(){
+        binding.fab.setOnClickListener { view ->
+            viewModel.saveTaskToDB(
+                Task(null, 1, "Task 1", "text text sdasdfsd asd sd asd ", TYPE_STANDARD_PRIORITY, false, "2021-10")
+            )
+            viewModel.saveTaskToDB(
+                Task(
+                    null,
+                    2,
+                    "Task 2",
+                    "text2 text2 text2 asd af dad a fd ",
+                    TYPE_STANDARD_PRIORITY,
+                    false,
+                    "2021-10"
+                )
+            )
+            viewModel.saveTaskToDB(
+                Task(
+                    null,
+                    3,
+                    "Задача 3",
+                    "text2 text2 text2 asd af dad a fd  ывоарплфыва ыфвларопфлоырапфыл валоыврп аылфв",
+                    TYPE_HIGH_PRIORITY,
+                    false,
+                    "2021-10"
+                )
+            )
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
