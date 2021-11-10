@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerAdapter(
     private var onListItemClickListener: OnListItemClickListener
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<BaseViewHolder>() {
 
     private var data: MutableList<Task> = mutableListOf()
 
@@ -21,7 +21,7 @@ class RecyclerAdapter(
         Log.d("APP", this.data.toString())
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             TYPE_STANDARD_PRIORITY -> {
@@ -55,21 +55,8 @@ class RecyclerAdapter(
 
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (getItemViewType(position)) {
-            TYPE_STANDARD_PRIORITY -> {
-                holder as StandardViewHolder
-                holder.bind(data[position])
-            }
-            TYPE_HIGH_PRIORITY -> {
-                holder as HighViewHolder
-                holder.bind(data[position])
-            }
-            else -> {
-                holder as HeaderViewHolder
-                holder.bind(data[position])
-            }
-        }
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        holder.bind(data[position])
     }
 
     override fun getItemCount(): Int {
@@ -80,38 +67,32 @@ class RecyclerAdapter(
         return data[position].type
     }
 
-    inner class StandardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var visible: Boolean = false
-        fun bind(data: Task) {
+    inner class StandardViewHolder(view: View) : BaseViewHolder(view) {
+        override fun bind(data: Task) {
             itemView.findViewById<TextView>(R.id.title).text = data.title
             val content = itemView.findViewById<TextView>(R.id.content)
             content.text = data.content
 
             itemView.setOnClickListener {
-                visible = !visible
-                if (visible) content.visibility = View.VISIBLE
-                else content.visibility = View.GONE
+                content.visibility = View.VISIBLE
             }
         }
     }
 
-    inner class HighViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var visible: Boolean = false
-        fun bind(data: Task) {
+    inner class HighViewHolder(view: View) : BaseViewHolder(view) {
+        override fun bind(data: Task) {
             itemView.findViewById<AppCompatTextView>(R.id.title).text = data.title
             val content = itemView.findViewById<TextView>(R.id.content)
             content.text = data.content
             itemView.setOnClickListener {
 //                onListItemClickListener.onItemClick(data)
-                visible = !visible
-                if (visible) content.visibility = View.VISIBLE
-                else content.visibility = View.GONE
+                content.visibility = View.VISIBLE
             }
         }
     }
 
-    inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(data: Task) {
+    inner class HeaderViewHolder(view: View) : BaseViewHolder(view) {
+        override fun bind(data: Task) {
             itemView.findViewById<AppCompatTextView>(R.id.title).text = data.title
         }
     }
