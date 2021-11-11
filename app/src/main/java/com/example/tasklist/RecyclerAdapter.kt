@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 const val ITEM_STATE_CLOSE = 0
@@ -16,6 +17,7 @@ const val ITEM_STATE_EDIT = 2
 class RecyclerAdapter(
     private var onListItemClickListener: OnListItemClickListener
 ) : RecyclerView.Adapter<BaseViewHolder>() {
+//Для выполнения сравнения в фоновом потоке использовать ListAdapter вместо RecyclerView.Adapter
 
     private var data: MutableList<Pair<Task, Int>> = mutableListOf()
 

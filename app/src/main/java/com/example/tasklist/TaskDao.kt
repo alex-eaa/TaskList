@@ -13,6 +13,12 @@ interface TaskDao {
     @Query("SELECT * FROM TaskEntity ORDER BY position DESC")
     fun allTaskByPositionDesc(): LiveData<List<TaskEntity>>
 
+    @Query("SELECT * FROM TaskEntity ORDER BY title")
+    fun allTaskByTitle(): LiveData<List<TaskEntity>>
+
+    @Query("SELECT * FROM TaskEntity ORDER BY title DESC")
+    fun allTaskByTitleDesc(): LiveData<List<TaskEntity>>
+
     @Query("SELECT * FROM TaskEntity ORDER BY dateCreation")
     fun allTaskByDate(): LiveData<List<TaskEntity>>
 
@@ -20,10 +26,10 @@ interface TaskDao {
     fun allTaskByDateDesc(): LiveData<List<TaskEntity>>
 
     @Query("SELECT * FROM TaskEntity ORDER BY type")
-    fun allTaskByPriority(): LiveData<List<TaskEntity>>
+    fun allTaskByType(): LiveData<List<TaskEntity>>
 
     @Query("SELECT * FROM TaskEntity ORDER BY type DESC")
-    fun allTaskByPriorityDesc(): LiveData<List<TaskEntity>>
+    fun allTaskByTypeDesc(): LiveData<List<TaskEntity>>
 
 
     @Query("SELECT * FROM TaskEntity WHERE isCompleted = 'true' ORDER BY position")

@@ -9,4 +9,11 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="action_sort_by_position">Позиция по возростанию</string>
+    <string name="action_sort_by_position_desc">Позиция по убыванию</string>
+    <string name="action_sort_by_type">Тип по возростанию</string>
+    <string name="action_sort_by_type_desc">Тип по убыванию</string>
+    <string name="action_sort_by_title">Заголовок по возростанию</string>
+    <string name="action_sort_by_title_desc">Заголовок по убыванию</string>
 </resources>

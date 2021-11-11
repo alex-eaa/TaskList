@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -49,7 +50,7 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setHasOptionsMenu(true)
         initView()
 
         binding.recyclerView.adapter = adapter
@@ -69,7 +70,7 @@ class FirstFragment : Fragment() {
                 Task(
                     null,
                     Random.nextInt(1, 100),
-                    "Task ${Random.nextInt(1,1000)}",
+                    "Task ${Random.nextInt(1, 1000)}",
                     "text text sdasdfsd asd sd asd ",
                     TYPE_STANDARD_PRIORITY,
                     false,
@@ -80,7 +81,7 @@ class FirstFragment : Fragment() {
                 Task(
                     null,
                     Random.nextInt(1, 100),
-                    "Выполнить ${Random.nextInt(1,1000)}",
+                    "Выполнить ${Random.nextInt(1, 1000)}",
                     "text2 text2 text2 asd af dad a fd ",
                     TYPE_STANDARD_PRIORITY,
                     Random.nextBoolean(),
@@ -90,8 +91,8 @@ class FirstFragment : Fragment() {
             viewModel.saveTaskToDB(
                 Task(
                     null,
-                    Random.nextInt(1,100),
-                    "Task ${Random.nextInt(1,1000)}",
+                    Random.nextInt(1, 100),
+                    "Task ${Random.nextInt(1, 1000)}",
                     "text2 text2 text2 asd af dad a fd  ывоарплфыва ыфвларопфлоырапфыл валоыврп аылфв",
                     TYPE_HIGH_PRIORITY,
                     Random.nextBoolean(),
@@ -102,6 +103,37 @@ class FirstFragment : Fragment() {
 
         binding.fabGetData.setOnClickListener { view ->
             viewModel.getAllTask()
+        }
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_sort_by_position -> {
+                viewModel.getAllTask(ORDER_BY_POSITION)
+                true
+            }
+            R.id.action_sort_by_position_desc -> {
+                viewModel.getAllTask(ORDER_BY_POSITION_DESC)
+                true
+            }
+            R.id.action_sort_by_type -> {
+                viewModel.getAllTask(ORDER_BY_TYPE)
+                true
+            }
+            R.id.action_sort_by_type_desc -> {
+                viewModel.getAllTask(ORDER_BY_TYPE_DESC)
+                true
+            }
+            R.id.action_sort_by_title -> {
+                viewModel.getAllTask(ORDER_BY_TITLE)
+                true
+            }
+            R.id.action_sort_by_title_desc -> {
+                viewModel.getAllTask(ORDER_BY_TITLE_DESC)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

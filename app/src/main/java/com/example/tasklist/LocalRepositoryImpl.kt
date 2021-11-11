@@ -10,8 +10,10 @@ class LocalRepositoryImpl(private val localDataSource: TaskDao) : LocalRepositor
             ORDER_BY_POSITION_DESC -> localDataSource.allTaskByPositionDesc()
             ORDER_BY_DATE_CREATION -> localDataSource.allTaskByDate()
             ORDER_BY_DATE_CREATION_DESC -> localDataSource.allTaskByDateDesc()
-            ORDER_BY_IS_HIGH_PRIORITY -> localDataSource.allTaskByPriority()
-            ORDER_BY_IS_HIGH_PRIORITY_DESC -> localDataSource.allTaskByPriorityDesc()
+            ORDER_BY_TYPE -> localDataSource.allTaskByType()
+            ORDER_BY_TYPE_DESC -> localDataSource.allTaskByTypeDesc()
+            ORDER_BY_TITLE -> localDataSource.allTaskByTitle()
+            ORDER_BY_TITLE_DESC -> localDataSource.allTaskByTitleDesc()
             else -> localDataSource.allTaskByPosition()
         }
     }
