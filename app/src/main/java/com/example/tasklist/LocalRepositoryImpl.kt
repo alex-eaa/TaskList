@@ -6,19 +6,20 @@ class LocalRepositoryImpl(private val localDataSource: TaskDao) : LocalRepositor
 
     override fun getAllTaskLiveData(orderBy: String): LiveData<List<TaskEntity>> {
         return when (orderBy) {
-            ORDER_BY_POSITION -> localDataSource.allTaskByPosition()
-            ORDER_BY_POSITION_DESC -> localDataSource.allTaskByPositionDesc()
-            ORDER_BY_DATE_CREATION -> localDataSource.allTaskByDate()
-            ORDER_BY_DATE_CREATION_DESC -> localDataSource.allTaskByDateDesc()
+            ORDER_BY_POSITION -> localDataSource.allTaskById()
+            ORDER_BY_POSITION_DESC -> localDataSource.allTaskByIdDesc()
             ORDER_BY_TYPE -> localDataSource.allTaskByType()
             ORDER_BY_TYPE_DESC -> localDataSource.allTaskByTypeDesc()
-            ORDER_BY_TITLE -> localDataSource.allTaskByTitle()
-            ORDER_BY_TITLE_DESC -> localDataSource.allTaskByTitleDesc()
-            else -> localDataSource.allTaskByPosition()
+            else -> localDataSource.allTaskById()
         }
     }
 
-    override fun saveTask(task: Task) {
-        localDataSource.insert(convertTaskToEntity(task))
+    override fun insertNewTaskToDB(taskEntity: TaskEntity) {
+        localDataSource.insert(taskEntity)
     }
+
+    override fun saveAllTaskToDB(taskEntity: List<TaskEntity>) {
+        localDataSource.deleteAndCreate(taskEntity)
+    }
+
 }

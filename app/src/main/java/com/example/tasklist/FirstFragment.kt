@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.tasklist.databinding.FragmentFirstBinding
 import kotlin.random.Random
 import kotlin.random.nextInt
@@ -18,7 +20,7 @@ import kotlin.random.nextInt
 class FirstFragment : Fragment() {
 
     companion object {
-        const val TAG = "FirstFragment"
+        const val TAG = "qqq"
     }
 
     private var _binding: FragmentFirstBinding? = null
@@ -34,8 +36,17 @@ class FirstFragment : Fragment() {
                 override fun onItemClick(data: Task) {
                     Toast.makeText(requireActivity(), data.title, Toast.LENGTH_SHORT).show()
                 }
+            },
+            object : RecyclerAdapter.OnStartDragListener {
+                override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+                    itemTouchHelper.startDrag(viewHolder)
+                }
             }
         )
+    }
+
+    private val itemTouchHelper: ItemTouchHelper by lazy {
+        ItemTouchHelper(ItemTouchHelperCallback(adapter))
     }
 
     override fun onCreateView(
@@ -54,55 +65,40 @@ class FirstFragment : Fragment() {
         initView()
 
         binding.recyclerView.adapter = adapter
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
         viewModel.taskLiveData
             .observe(viewLifecycleOwner, {
-                Log.d(TAG, "Load data: ${it.toString()}")
-                val newList = convertListTaskEntityToListPairsTask(it)
-                adapter.setItems(addToListPairsTaskHeader(newList))
+//                Log.d(TAG, "Load data: ${it.toString()}")
+//                val newList = convertListTaskEntityToListPairsTask(it)
+//                adapter.setItems(addToListPairsTaskHeader(newList))
             })
+
+        viewModel.taskLiveData2
+            .observe(viewLifecycleOwner, {
+                Log.d(TAG, "taskLiveData2 Load data: ${it.toString()}")
+                adapter.setItemsPair(it)
+            })
+
         viewModel.getAllTask()
     }
 
     private fun initView() {
         binding.fab.setOnClickListener { view ->
-            viewModel.saveTaskToDB(
+            viewModel.insertTaskToDB(
                 Task(
-                    null,
-                    Random.nextInt(1, 100),
-                    "Task ${Random.nextInt(1, 1000)}",
-                    "text text sdasdfsd asd sd asd ",
-                    TYPE_STANDARD_PRIORITY,
-                    false,
-                    "2021-10"
-                )
-            )
-            viewModel.saveTaskToDB(
-                Task(
-                    null,
-                    Random.nextInt(1, 100),
-                    "Выполнить ${Random.nextInt(1, 1000)}",
-                    "text2 text2 text2 asd af dad a fd ",
-                    TYPE_STANDARD_PRIORITY,
-                    Random.nextBoolean(),
-                    "2021-10"
-                )
-            )
-            viewModel.saveTaskToDB(
-                Task(
-                    null,
-                    Random.nextInt(1, 100),
-                    "Task ${Random.nextInt(1, 1000)}",
-                    "text2 text2 text2 asd af dad a fd  ывоарплфыва ыфвларопфлоырапфыл валоыврп аылфв",
-                    TYPE_HIGH_PRIORITY,
-                    Random.nextBoolean(),
-                    "2021-10"
+                    id = null,
+                    title = "Task ${Random.nextInt(1, 1000)}",
+                    content = "text text sdasdfsd asd sd asd ",
+                    type = TYPE_STANDARD_PRIORITY,
+                    isCompleted = false,
+                    dateCreation = "2021-10"
                 )
             )
         }
 
         binding.fabGetData.setOnClickListener { view ->
-            viewModel.getAllTask()
+                    viewModel.saveAllTasksToDB(adapter.data)
         }
     }
 
@@ -115,22 +111,6 @@ class FirstFragment : Fragment() {
             }
             R.id.action_sort_by_position_desc -> {
                 viewModel.getAllTask(ORDER_BY_POSITION_DESC)
-                true
-            }
-            R.id.action_sort_by_type -> {
-                viewModel.getAllTask(ORDER_BY_TYPE)
-                true
-            }
-            R.id.action_sort_by_type_desc -> {
-                viewModel.getAllTask(ORDER_BY_TYPE_DESC)
-                true
-            }
-            R.id.action_sort_by_title -> {
-                viewModel.getAllTask(ORDER_BY_TITLE)
-                true
-            }
-            R.id.action_sort_by_title_desc -> {
-                viewModel.getAllTask(ORDER_BY_TITLE_DESC)
                 true
             }
             else -> super.onOptionsItemSelected(item)

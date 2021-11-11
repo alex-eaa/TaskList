@@ -15,8 +15,7 @@ class DiffUtilCallBack(
         oldItems[oldItemPosition].first.id == newItems[oldItemPosition].first.id
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return (oldItems[oldItemPosition].first.position == newItems[oldItemPosition].first.position
-                && oldItems[oldItemPosition].first.title == newItems[oldItemPosition].first.title
+        return (oldItems[oldItemPosition].first.title == newItems[oldItemPosition].first.title
                 && oldItems[oldItemPosition].first.content == newItems[oldItemPosition].first.content
                 && oldItems[oldItemPosition].first.isCompleted == newItems[oldItemPosition].first.isCompleted
                 && oldItems[oldItemPosition].first.type == newItems[oldItemPosition].first.type

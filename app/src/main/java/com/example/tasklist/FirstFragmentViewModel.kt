@@ -1,6 +1,7 @@
 package com.example.tasklist
 
-import androidx.lifecycle.LiveData
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,17 +18,33 @@ class FirstFragmentViewModel : ViewModel() {
 
     val taskLiveData: MediatorLiveData<List<TaskEntity>> = MediatorLiveData<List<TaskEntity>>()
 
+    var taskLiveData2: MutableLiveData<List<Pair<Task, Int>>> =
+        MutableLiveData<List<Pair<Task, Int>>>()
 
-    fun getAllTask(orderBy: String = ORDER_BY_POSITION) {
+
+    fun getAllTask(orderBy: String = ORDER_BY_POSITION_DESC) {
         taskLiveData.addSource(localRepository.getAllTaskLiveData(orderBy)) {
-            taskLiveData.value = it
+//            taskLiveData.value = it
+            val newList = convertListTaskEntityToListPairsTask(it)
+            taskLiveData2.postValue(addHeader(newList))
         }
     }
 
-    fun saveTaskToDB(task: Task) {
+    fun insertTaskToDB(task: Task) {
         compositeDisposable.add(
             Observable
-                .fromCallable { localRepository.saveTask(task) }
+                .fromCallable { localRepository.insertNewTaskToDB(convertTaskToEntity(task)) }
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+        )
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun saveAllTasksToDB(list: List<Pair<Task, Int>>) {
+        val listTask = convertListPairsTaskEntityToListTask(delHeader(list))
+        compositeDisposable.add(
+            Observable
+                .fromCallable { localRepository.saveAllTaskToDB(listTask) }
                 .subscribeOn(Schedulers.io())
                 .subscribe()
         )

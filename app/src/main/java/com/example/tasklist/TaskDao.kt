@@ -7,23 +7,11 @@ import io.reactivex.Single
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * FROM TaskEntity ORDER BY position")
-    fun allTaskByPosition(): LiveData<List<TaskEntity>>
+    @Query("SELECT * FROM TaskEntity ORDER BY id")
+    fun allTaskById(): LiveData<List<TaskEntity>>
 
-    @Query("SELECT * FROM TaskEntity ORDER BY position DESC")
-    fun allTaskByPositionDesc(): LiveData<List<TaskEntity>>
-
-    @Query("SELECT * FROM TaskEntity ORDER BY title")
-    fun allTaskByTitle(): LiveData<List<TaskEntity>>
-
-    @Query("SELECT * FROM TaskEntity ORDER BY title DESC")
-    fun allTaskByTitleDesc(): LiveData<List<TaskEntity>>
-
-    @Query("SELECT * FROM TaskEntity ORDER BY dateCreation")
-    fun allTaskByDate(): LiveData<List<TaskEntity>>
-
-    @Query("SELECT * FROM TaskEntity ORDER BY dateCreation DESC")
-    fun allTaskByDateDesc(): LiveData<List<TaskEntity>>
+    @Query("SELECT * FROM TaskEntity ORDER BY id DESC")
+    fun allTaskByIdDesc(): LiveData<List<TaskEntity>>
 
     @Query("SELECT * FROM TaskEntity ORDER BY type")
     fun allTaskByType(): LiveData<List<TaskEntity>>
@@ -31,22 +19,33 @@ interface TaskDao {
     @Query("SELECT * FROM TaskEntity ORDER BY type DESC")
     fun allTaskByTypeDesc(): LiveData<List<TaskEntity>>
 
+    @Query("SELECT * FROM TaskEntity WHERE isCompleted = 'true' ORDER BY id")
+    fun completedTaskById(): LiveData<List<TaskEntity>>
 
-    @Query("SELECT * FROM TaskEntity WHERE isCompleted = 'true' ORDER BY position")
-    fun completedTaskByPosition(): LiveData<List<TaskEntity>>
-
-    @Query("SELECT * FROM TaskEntity WHERE isCompleted = 'false' ORDER BY position")
-    fun incompleteTaskByPosition(): LiveData<List<TaskEntity>>
+    @Query("SELECT * FROM TaskEntity WHERE isCompleted = 'false' ORDER BY id")
+    fun incompleteTaskById(): LiveData<List<TaskEntity>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entity: TaskEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(entity: List<TaskEntity>)
+
     @Update
     fun update(entity: TaskEntity)
 
-    @Delete
-    fun delete(entity: TaskEntity)
+    @Update
+    fun updateAll(entity: List<TaskEntity>)
+
+    @Query("DELETE FROM TaskEntity")
+    fun deleteAll()
+
+    @Transaction
+    fun deleteAndCreate(entity: List<TaskEntity>) {
+        deleteAll()
+        insertAll(entity)
+    }
 
 
 //    @Query("SELECT * FROM TaskEntity WHERE idMovie = :idMovie")
