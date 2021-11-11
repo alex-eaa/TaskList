@@ -55,10 +55,11 @@ class FirstFragment : Fragment() {
         viewModel.taskLiveData
             .observe(viewLifecycleOwner, {
                 Log.d(TAG, "Load data: ${it.toString()}")
-                adapter.setData(it.map { taskEntity ->
-                    convertEntityToTask(taskEntity)
-                })
-                adapter.notifyDataSetChanged()
+//                adapter.setData(it.map { taskEntity ->
+//                    convertEntityToTask(taskEntity)
+//                })
+                val newList = convertListTaskEntityToListPairsTask(it)
+                adapter.setItems(addToListPairsTaskHeader(newList))
             })
         viewModel.getAllTask()
     }

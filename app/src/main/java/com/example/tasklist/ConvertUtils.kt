@@ -25,3 +25,14 @@ fun convertEntityToTask(taskEntity: TaskEntity): Task {
         dateCreation = taskEntity.dateCreation,
     )
 }
+
+
+fun convertListTaskEntityToListPairsTask(list: List<TaskEntity>): List<Pair<Task, Int>> {
+    return list.zipWithNext { a, _ -> Pair(convertEntityToTask(a), ITEM_STATE_CLOSE) }
+}
+
+fun addToListPairsTaskHeader(listPairs: List<Pair<Task, Int>>): List<Pair<Task, Int>> {
+    val listWithHeader = listPairs.toMutableList()
+    listWithHeader.add(0, Task(type = TYPE_HEADER, title = "МОИ ЗАДАЧИ") to ITEM_STATE_CLOSE)
+    return listWithHeader
+}
