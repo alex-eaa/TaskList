@@ -1,13 +1,12 @@
 package com.example.tasklist
 
-import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 const val ITEM_STATE_CLOSE = 0
@@ -20,16 +19,11 @@ class RecyclerAdapter(
 
     private var data: MutableList<Pair<Task, Int>> = mutableListOf()
 
-    fun setData(data: List<Task>) {
-//        this.data = data.toMutableList()
-//        this.data.add(0, Task(type = TYPE_HEADER, title = "МОИ ЗАДАЧИ") to ITEM_STATE_CLOSE)
-//        Log.d("APP", this.data.toString())
-    }
-
     fun setItems(newItems: List<Pair<Task, Int>>) {
+        val result = DiffUtil.calculateDiff(DiffUtilCallBack(data, newItems))
+        result.dispatchUpdatesTo(this)
         data.clear()
         data.addAll(newItems)
-        this.notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -92,6 +86,8 @@ class RecyclerAdapter(
 
             itemView.setOnClickListener { toggleText() }
             itemView.findViewById<ImageView>(R.id.ic_delete).setOnClickListener { removeItem() }
+            itemView.findViewById<ImageView>(R.id.ic_arrow_down).setOnClickListener { moveDown() }
+            itemView.findViewById<ImageView>(R.id.ic_arrow_up).setOnClickListener { moveUp() }
         }
 
         private fun toggleText() {
@@ -107,7 +103,25 @@ class RecyclerAdapter(
             data.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
         }
+
+        private fun moveDown() {
+            if (layoutPosition < data.size - 1) {
+                val element = data.removeAt(layoutPosition)
+                data.add(layoutPosition + 1, element)
+                notifyItemMoved(layoutPosition, layoutPosition + 1)
+            }
+        }
+
+        private fun moveUp() {
+            if (layoutPosition > 1) {
+                val element = data.removeAt(layoutPosition)
+                data.add(layoutPosition - 1, element)
+                notifyItemMoved(layoutPosition, layoutPosition - 1)
+            }
+        }
+
     }
+
 
     inner class HighViewHolder(view: View) : BaseViewHolder(view) {
         override fun bind(dataItem: Pair<Task, Int>) {
@@ -123,6 +137,8 @@ class RecyclerAdapter(
 
             itemView.setOnClickListener { toggleText() }
             itemView.findViewById<ImageView>(R.id.ic_delete).setOnClickListener { removeItem() }
+            itemView.findViewById<ImageView>(R.id.ic_arrow_down).setOnClickListener { moveDown() }
+            itemView.findViewById<ImageView>(R.id.ic_arrow_up).setOnClickListener { moveUp() }
         }
 
         private fun toggleText() {
@@ -137,6 +153,23 @@ class RecyclerAdapter(
         private fun removeItem() {
             data.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
+        }
+
+        private fun moveDown() {
+            if (layoutPosition < data.size - 1) {
+                val element = data.removeAt(layoutPosition)
+                data.add(layoutPosition + 1, element)
+
+                notifyItemMoved(layoutPosition, layoutPosition + 1)
+            }
+        }
+
+        private fun moveUp() {
+            if (layoutPosition > 1) {
+                val element = data.removeAt(layoutPosition)
+                data.add(layoutPosition - 1, element)
+                notifyItemMoved(layoutPosition, layoutPosition - 1)
+            }
         }
     }
 

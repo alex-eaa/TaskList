@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.tasklist.databinding.FragmentFirstBinding
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 
 class FirstFragment : Fragment() {
@@ -55,26 +57,20 @@ class FirstFragment : Fragment() {
         viewModel.taskLiveData
             .observe(viewLifecycleOwner, {
                 Log.d(TAG, "Load data: ${it.toString()}")
-//                adapter.setData(it.map { taskEntity ->
-//                    convertEntityToTask(taskEntity)
-//                })
                 val newList = convertListTaskEntityToListPairsTask(it)
                 adapter.setItems(addToListPairsTaskHeader(newList))
             })
         viewModel.getAllTask()
     }
 
-    private fun initView(){
+    private fun initView() {
         binding.fab.setOnClickListener { view ->
-            viewModel.saveTaskToDB(
-                Task(null, 1, "Task 1", "text text sdasdfsd asd sd asd ", TYPE_STANDARD_PRIORITY, false, "2021-10")
-            )
             viewModel.saveTaskToDB(
                 Task(
                     null,
-                    2,
-                    "Task 2",
-                    "text2 text2 text2 asd af dad a fd ",
+                    Random.nextInt(1, 100),
+                    "Task ${Random.nextInt(1,1000)}",
+                    "text text sdasdfsd asd sd asd ",
                     TYPE_STANDARD_PRIORITY,
                     false,
                     "2021-10"
@@ -83,14 +79,29 @@ class FirstFragment : Fragment() {
             viewModel.saveTaskToDB(
                 Task(
                     null,
-                    3,
-                    "Задача 3",
-                    "text2 text2 text2 asd af dad a fd  ывоарплфыва ыфвларопфлоырапфыл валоыврп аылфв",
-                    TYPE_HIGH_PRIORITY,
-                    false,
+                    Random.nextInt(1, 100),
+                    "Выполнить ${Random.nextInt(1,1000)}",
+                    "text2 text2 text2 asd af dad a fd ",
+                    TYPE_STANDARD_PRIORITY,
+                    Random.nextBoolean(),
                     "2021-10"
                 )
             )
+            viewModel.saveTaskToDB(
+                Task(
+                    null,
+                    Random.nextInt(1,100),
+                    "Task ${Random.nextInt(1,1000)}",
+                    "text2 text2 text2 asd af dad a fd  ывоарплфыва ыфвларопфлоырапфыл валоыврп аылфв",
+                    TYPE_HIGH_PRIORITY,
+                    Random.nextBoolean(),
+                    "2021-10"
+                )
+            )
+        }
+
+        binding.fabGetData.setOnClickListener { view ->
+            viewModel.getAllTask()
         }
     }
 
