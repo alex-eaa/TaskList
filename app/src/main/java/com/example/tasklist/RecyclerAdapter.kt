@@ -19,11 +19,11 @@ class RecyclerAdapter(
     var data: MutableList<Pair<Task, Int>> = mutableListOf()
 
     fun setItemsPair(newItems: List<Pair<Task, Int>>) {
-        val result = DiffUtil.calculateDiff(DiffUtilCallBack(data, newItems))
-        result.dispatchUpdatesTo(this)
+//        val result = DiffUtil.calculateDiff(DiffUtilCallBack(data, newItems))
+//        result.dispatchUpdatesTo(this)
         data.clear()
         data.addAll(newItems)
-//        notifyDataSetChanged()
+        notifyDataSetChanged()
     }
 
 
@@ -74,9 +74,9 @@ class RecyclerAdapter(
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
         if (toPosition != 0) {
-            val pos = data[fromPosition].first.id
-            data[fromPosition].first.id = data[toPosition].first.id
-            data[toPosition].first.id = pos
+//            val pos = data[fromPosition].first.id
+//            data[fromPosition].first.id = data[toPosition].first.id
+//            data[toPosition].first.id = pos
 
             val element = data.removeAt(fromPosition)
             if (toPosition > fromPosition) data.add((toPosition), element)

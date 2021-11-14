@@ -50,6 +50,15 @@ class FirstFragmentViewModel : ViewModel() {
         )
     }
 
+    fun addNewTask(task: Task){
+        taskLiveData2.value?.let {
+            val list = it.toMutableList()
+                list.add(task to ITEM_STATE_EDIT)
+            taskLiveData2.postValue(list)
+        }
+
+    }
+
     override fun onCleared() {
         compositeDisposable.dispose()
         super.onCleared()

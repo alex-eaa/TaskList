@@ -1,5 +1,6 @@
 package com.example.tasklist
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -59,6 +61,7 @@ class FirstFragment : Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
@@ -68,11 +71,7 @@ class FirstFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
         viewModel.taskLiveData
-            .observe(viewLifecycleOwner, {
-//                Log.d(TAG, "Load data: ${it.toString()}")
-//                val newList = convertListTaskEntityToListPairsTask(it)
-//                adapter.setItems(addToListPairsTaskHeader(newList))
-            })
+            .observe(viewLifecycleOwner, {})
 
         viewModel.taskLiveData2
             .observe(viewLifecycleOwner, {
@@ -83,13 +82,14 @@ class FirstFragment : Fragment() {
         viewModel.getAllTask()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun initView() {
         binding.fab.setOnClickListener { view ->
-            viewModel.insertTaskToDB(
+            viewModel.addNewTask(
                 Task(
                     id = null,
-                    title = "Task ${Random.nextInt(1, 1000)}",
-                    content = "text text sdasdfsd asd sd asd ",
+                    title = "",
+                    content = "",
                     type = TYPE_STANDARD_PRIORITY,
                     isCompleted = false,
                     dateCreation = "2021-10"
@@ -98,7 +98,7 @@ class FirstFragment : Fragment() {
         }
 
         binding.fabGetData.setOnClickListener { view ->
-                    viewModel.saveAllTasksToDB(adapter.data)
+            viewModel.saveAllTasksToDB(adapter.data)
         }
     }
 
@@ -117,6 +117,12 @@ class FirstFragment : Fragment() {
         }
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onStop() {
+        viewModel.saveAllTasksToDB(adapter.data)
+        super.onStop()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

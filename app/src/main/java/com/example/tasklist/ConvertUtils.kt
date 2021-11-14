@@ -5,9 +5,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 
 
-fun convertTaskToEntity(task: Task): TaskEntity {
+fun convertTaskToEntity(task: Task, index: Int? = null): TaskEntity {
     return TaskEntity(
-        id = task.id,
+        id = index,
         title = task.title,
         content = task.content,
         type = task.type,
@@ -40,7 +40,7 @@ fun convertListTaskEntityToListPairsTask(list: List<TaskEntity>): List<Pair<Task
 fun convertListPairsTaskEntityToListTask(listPairs: List<Pair<Task, Int>>): List<TaskEntity> {
     val list = mutableListOf<TaskEntity>()
     listPairs.forEachIndexed { index, taskEntity ->
-        list.add(convertTaskToEntity(taskEntity.first))
+        list.add(convertTaskToEntity(taskEntity.first, index))
     }
     return list
 }
