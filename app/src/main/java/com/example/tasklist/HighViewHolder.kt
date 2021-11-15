@@ -36,7 +36,7 @@ class HighViewHolder(
             else -> View.GONE
         }
 
-        switchPriority.isChecked = when(dataItem.first.type){
+        switchPriority.isChecked = when (dataItem.first.type) {
             0 -> false
             else -> true
         }
@@ -99,6 +99,12 @@ class HighViewHolder(
     private fun moveDown() {
         if (layoutPosition < adapter.data.size - 1) {
 
+            val positionTemp1 = adapter.data[layoutPosition].first.position
+            val positionTemp2 = adapter.data[layoutPosition + 1].first.position
+            adapter.data[layoutPosition].first.position = positionTemp2
+            adapter.data[layoutPosition + 1].first.position = positionTemp1
+
+
             val element = adapter.data.removeAt(layoutPosition)
             adapter.data.add(layoutPosition + 1, element)
 
@@ -108,8 +114,15 @@ class HighViewHolder(
 
     private fun moveUp() {
         if (layoutPosition > 1) {
+            val positionTemp1 = adapter.data[layoutPosition].first.position
+            val positionTemp2 = adapter.data[layoutPosition - 1].first.position
+            adapter.data[layoutPosition].first.position = positionTemp2
+            adapter.data[layoutPosition - 1].first.position = positionTemp1
+
+
             val element = adapter.data.removeAt(layoutPosition)
             adapter.data.add(layoutPosition - 1, element)
+
             adapter.notifyItemMoved(layoutPosition, layoutPosition - 1)
         }
     }
@@ -134,13 +147,23 @@ class HighViewHolder(
 
                 val switchPriority = itemView.findViewById<SwitchCompat>(R.id.switch_priority)
                 dataItem.first.type = when (switchPriority.isChecked) {
-                    true -> 1
-                    else -> 0
+                    true -> TYPE_HIGH_PRIORITY
+                    else -> TYPE_STANDARD_PRIORITY
                 }
                 adapter.data[layoutPosition].first to ITEM_STATE_CLOSE
             }
             else -> adapter.data[layoutPosition].first to ITEM_STATE_EDIT
         }
+
+        if (dataItem.first.position == POSITION_FOR_NEW_TASK) {
+            var positionNew = 0
+            adapter.data.forEach {
+                positionNew =
+                    if (it.first.position in (positionNew + 1) until POSITION_FOR_NEW_TASK) it.first.position else positionNew
+            }
+            dataItem.first.position = positionNew + 1
+        }
+
         adapter.notifyItemChanged(layoutPosition)
     }
 
@@ -149,6 +172,7 @@ class HighViewHolder(
             ITEM_STATE_EDIT -> adapter.data[layoutPosition].first to ITEM_STATE_CLOSE
             else -> adapter.data[layoutPosition].first to ITEM_STATE_EDIT
         }
+
         adapter.notifyItemChanged(layoutPosition)
     }
 

@@ -1,8 +1,10 @@
 package com.example.tasklist
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
@@ -11,7 +13,6 @@ const val ITEM_STATE_OPEN = 1
 const val ITEM_STATE_EDIT = 2
 
 class RecyclerAdapter(
-    private var onListItemClickListener: OnListItemClickListener,
     val dragListener: OnStartDragListener,
 ) : RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
 //Для выполнения сравнения в фоновом потоке использовать ListAdapter вместо RecyclerView.Adapter
@@ -19,11 +20,11 @@ class RecyclerAdapter(
     var data: MutableList<Pair<Task, Int>> = mutableListOf()
 
     fun setItemsPair(newItems: List<Pair<Task, Int>>) {
-//        val result = DiffUtil.calculateDiff(DiffUtilCallBack(data, newItems))
-//        result.dispatchUpdatesTo(this)
+        val result = DiffUtil.calculateDiff(DiffUtilCallBack(data, newItems))
+        result.dispatchUpdatesTo(this)
         data.clear()
         data.addAll(newItems)
-        notifyDataSetChanged()
+//        notifyDataSetChanged()
     }
 
 
@@ -74,9 +75,9 @@ class RecyclerAdapter(
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
         if (toPosition != 0) {
-//            val pos = data[fromPosition].first.id
-//            data[fromPosition].first.id = data[toPosition].first.id
-//            data[toPosition].first.id = pos
+            val pos = data[fromPosition].first.position
+            data[fromPosition].first.position = data[toPosition].first.position
+            data[toPosition].first.position = pos
 
             val element = data.removeAt(fromPosition)
             if (toPosition > fromPosition) data.add((toPosition), element)
@@ -87,6 +88,7 @@ class RecyclerAdapter(
     }
 
     override fun onItemDismiss(position: Int) {
+//        firstFragmentViewModel.deleteTaskFromDB(data[position].first)
         data.removeAt(position)
         notifyItemRemoved(position)
     }

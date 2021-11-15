@@ -50,7 +50,7 @@
             app:layout_constraintBottom_toTopOf="@+id/ic_delete"
             app:layout_constraintEnd_toStartOf="@+id/ic_drag"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_save_24" />
+            app:srcCompat="@drawable/ic_baseline_check_24" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ic_delete"
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="6dp"
             android:gravity="center"
-            android:hint="Введите заголовок задачи"
+            android:hint="@string/hint_enter_title"
             android:maxLength="48"
             android:maxLines="2"
             android:textSize="24sp"
@@ -158,7 +158,7 @@
             android:gravity="fill_horizontal"
             android:textSize="16sp"
             android:visibility="gone"
-            android:hint="Введите содержимое задачи"
+            android:hint="@string/hint_enter_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/guideline1"
@@ -169,7 +169,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="6dp"
-            android:text="Высокий приоритет"
+            android:text="@string/high_priority"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/content_edit" />

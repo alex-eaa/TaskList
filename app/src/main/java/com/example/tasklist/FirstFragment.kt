@@ -11,12 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tasklist.databinding.FragmentFirstBinding
-import kotlin.random.Random
-import kotlin.random.nextInt
 
 
 class FirstFragment : Fragment() {
@@ -34,11 +31,6 @@ class FirstFragment : Fragment() {
 
     private val adapter: RecyclerAdapter by lazy {
         RecyclerAdapter(
-            object : RecyclerAdapter.OnListItemClickListener {
-                override fun onItemClick(data: Task) {
-                    Toast.makeText(requireActivity(), data.title, Toast.LENGTH_SHORT).show()
-                }
-            },
             object : RecyclerAdapter.OnStartDragListener {
                 override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
                     itemTouchHelper.startDrag(viewHolder)
@@ -70,24 +62,19 @@ class FirstFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
-        viewModel.taskLiveData
-            .observe(viewLifecycleOwner, {})
-
-        viewModel.taskLiveData2
+        viewModel.taskPairsLiveData
             .observe(viewLifecycleOwner, {
-                Log.d(TAG, "taskLiveData2 Load data: ${it.toString()}")
-                adapter.setItemsPair(it)
+                adapter.setItemsPair(addHeader(it))
             })
-
-        viewModel.getAllTask()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun initView() {
         binding.fab.setOnClickListener { view ->
-            viewModel.addNewTask(
+            viewModel.insertNewTaskToDB(
                 Task(
                     id = null,
+                    position = BaseViewHolder.POSITION_FOR_NEW_TASK,
                     title = "",
                     content = "",
                     type = TYPE_STANDARD_PRIORITY,
@@ -98,7 +85,7 @@ class FirstFragment : Fragment() {
         }
 
         binding.fabGetData.setOnClickListener { view ->
-            viewModel.saveAllTasksToDB(adapter.data)
+            viewModel.insertAllTasksInDB(delHeader(adapter.data))
         }
     }
 
@@ -106,22 +93,21 @@ class FirstFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_sort_by_position -> {
-                viewModel.getAllTask(ORDER_BY_POSITION)
+//                viewModel.setLiveData(ORDER_BY_POSITION)
                 true
             }
             R.id.action_sort_by_position_desc -> {
-                viewModel.getAllTask(ORDER_BY_POSITION_DESC)
+//                viewModel.setLiveData(ORDER_BY_POSITION_DESC)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onStop() {
-        viewModel.saveAllTasksToDB(adapter.data)
         super.onStop()
+//        viewModel.insertAllTasksInDB(delHeader(adapter.data))
     }
 
     override fun onDestroyView() {

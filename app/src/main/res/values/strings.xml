@@ -16,4 +16,7 @@
     <string name="action_sort_by_type_desc">Тип по убыванию</string>
     <string name="action_sort_by_title">Заголовок по возростанию</string>
     <string name="action_sort_by_title_desc">Заголовок по убыванию</string>
+    <string name="hint_enter_title">Введите заголовок</string>
+    <string name="hint_enter_content">Введите содержимое</string>
+    <string name="high_priority">Высокий приоритет</string>
 </resources>

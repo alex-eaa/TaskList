@@ -8,8 +8,6 @@ class LocalRepositoryImpl(private val localDataSource: TaskDao) : LocalRepositor
         return when (orderBy) {
             ORDER_BY_POSITION -> localDataSource.allTaskById()
             ORDER_BY_POSITION_DESC -> localDataSource.allTaskByIdDesc()
-            ORDER_BY_TYPE -> localDataSource.allTaskByType()
-            ORDER_BY_TYPE_DESC -> localDataSource.allTaskByTypeDesc()
             else -> localDataSource.allTaskById()
         }
     }
@@ -18,8 +16,11 @@ class LocalRepositoryImpl(private val localDataSource: TaskDao) : LocalRepositor
         localDataSource.insert(taskEntity)
     }
 
-    override fun saveAllTaskToDB(taskEntity: List<TaskEntity>) {
-        localDataSource.deleteAndCreate(taskEntity)
+    override fun insertAllTaskToDB(listEntity: List<TaskEntity>) {
+        localDataSource.deleteAndCreate(listEntity)
     }
 
+    override fun deleteTask(entity: TaskEntity){
+        localDataSource.delete(entity)
+    }
 }

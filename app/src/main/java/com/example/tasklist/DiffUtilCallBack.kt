@@ -22,11 +22,4 @@ class DiffUtilCallBack(
                 && oldItems[oldItemPosition].first.dateCreation == newItems[oldItemPosition].first.dateCreation
                 )
     }
-
-//    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-//        val oldItem = oldItems[oldItemPosition]
-//        val newItem = newItems[newItemPosition]
-//
-//        return Change(oldItem, newItem)
-//    }
 }

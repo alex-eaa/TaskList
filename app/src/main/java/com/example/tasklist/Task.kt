@@ -6,6 +6,7 @@ const val TYPE_HEADER = 2
 
 data class Task(
     var id: Int?,
+    var position: Int,
     var title: String = "",
     var content: String = "",
     var type: Int = TYPE_STANDARD_PRIORITY,
