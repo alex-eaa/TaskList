@@ -107,7 +107,7 @@ class FirstFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onStop() {
         super.onStop()
-        viewModel.insertAllTasksInDB(delHeader(adapter.data))
+//        viewModel.insertAllTasksInDB(delHeader(adapter.data))
     }
 
     override fun onDestroyView() {

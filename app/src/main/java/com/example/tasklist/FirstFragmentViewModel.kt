@@ -1,8 +1,10 @@
 package com.example.tasklist
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.*
 import com.example.tasklist.App.Companion.getTaskDao
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.nio.ByteOrder
@@ -40,6 +42,11 @@ class FirstFragmentViewModel : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .subscribe()
         )
+    }
+
+    fun saveAllTasksInDB(listTask: List<Pair<Task, Int>>) {
+                    localRepository.insertAllTaskToDB(
+                        convertListPairsTaskEntityToListTask(listTask))
     }
 
     fun deleteTaskFromDB(task: Task) {
