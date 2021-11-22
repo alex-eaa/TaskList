@@ -72,24 +72,33 @@ class FirstFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.N)
     private fun initView() {
         binding.fab.setOnClickListener { view ->
-            viewModel.insertNewTaskToDB(
-                Task(
-                    id = null,
-                    position = BaseViewHolder.POSITION_FOR_NEW_TASK,
-                    title = "",
-                    content = "",
-                    type = TYPE_STANDARD_PRIORITY,
-                    isCompleted = false,
-                    dateCreation = "2021-10"
-                )
-            )
-        }
+            var alreadyEmptyTask = false
+            for (pair in adapter.data) {
+                if (pair.first.position == BaseViewHolder.POSITION_FOR_NEW_TASK) {
+                    alreadyEmptyTask = true
+                    break
+                }
+            }
 
-        binding.fabGetData.setOnClickListener { view ->
-            viewModel.insertAllTasksInDB(delHeader(adapter.data))
+            if (!alreadyEmptyTask) {
+                viewModel.insertNewTaskToDB(
+                    Task(
+                        id = null,
+                        position = BaseViewHolder.POSITION_FOR_NEW_TASK,
+                        title = "",
+                        content = "",
+                        type = TYPE_STANDARD_PRIORITY,
+                        isCompleted = false,
+                        dateCreation = "2021-10"
+                    )
+                )
+            }
+
+            binding.fabGetData.setOnClickListener { view ->
+//                viewModel.insertAllTasksInDB(delHeader(adapter.data))
+            }
         }
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

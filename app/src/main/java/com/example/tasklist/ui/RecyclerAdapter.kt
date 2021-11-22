@@ -16,7 +16,7 @@ const val ITEM_STATE_OPEN = 1
 const val ITEM_STATE_EDIT = 2
 
 class RecyclerAdapter(
-    val dragListener: OnStartDragListener,
+    val dragListener: OnStartDragListener
 ) : RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
 //Для выполнения сравнения в фоновом потоке использовать ListAdapter вместо RecyclerView.Adapter
 
@@ -85,7 +85,6 @@ class RecyclerAdapter(
             val element = data.removeAt(fromPosition)
             if (toPosition > fromPosition) data.add((toPosition), element)
             else data.add((toPosition), element)
-
             notifyItemMoved(fromPosition, toPosition)
         }
     }
