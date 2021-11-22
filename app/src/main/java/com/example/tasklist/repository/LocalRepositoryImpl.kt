@@ -1,6 +1,8 @@
-package com.example.tasklist
+package com.example.tasklist.repository
 
 import androidx.lifecycle.LiveData
+import com.example.tasklist.data.TaskDao
+import com.example.tasklist.data.TaskEntity
 
 class LocalRepositoryImpl(private val localDataSource: TaskDao) : LocalRepository {
 

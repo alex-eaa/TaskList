@@ -1,9 +1,9 @@
-package com.example.tasklist
+package com.example.tasklist.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import io.reactivex.Single
 import androidx.room.Update
+import com.example.tasklist.data.TaskEntity
 
 
 @Dao

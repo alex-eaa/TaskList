@@ -1,6 +1,5 @@
-package com.example.tasklist
+package com.example.tasklist.ui
 
-import android.widget.Adapter
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 

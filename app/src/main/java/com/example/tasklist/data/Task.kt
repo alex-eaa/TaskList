@@ -1,4 +1,4 @@
-package com.example.tasklist
+package com.example.tasklist.data
 
 const val TYPE_STANDARD_PRIORITY = 0
 const val TYPE_HIGH_PRIORITY = 1

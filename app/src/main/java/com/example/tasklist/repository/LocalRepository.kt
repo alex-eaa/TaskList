@@ -1,6 +1,7 @@
-package com.example.tasklist
+package com.example.tasklist.repository
 
 import androidx.lifecycle.LiveData
+import com.example.tasklist.data.TaskEntity
 
 const val ORDER_BY_POSITION = "ORDER_BY_POSITION"
 const val ORDER_BY_POSITION_DESC = "ORDER_BY_POSITION_DESC"

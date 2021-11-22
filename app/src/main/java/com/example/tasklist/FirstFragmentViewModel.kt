@@ -4,6 +4,11 @@ import android.os.Handler
 import android.os.HandlerThread
 import androidx.lifecycle.*
 import com.example.tasklist.App.Companion.getTaskDao
+import com.example.tasklist.data.Task
+import com.example.tasklist.data.TaskEntity
+import com.example.tasklist.repository.LocalRepository
+import com.example.tasklist.repository.LocalRepositoryImpl
+import com.example.tasklist.repository.ORDER_BY_POSITION_DESC
 
 class FirstFragmentViewModel : ViewModel() {
 

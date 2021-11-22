@@ -1,4 +1,4 @@
-package com.example.tasklist
+package com.example.tasklist.ui
 
 interface ItemTouchHelperAdapter {
     fun onItemMove(fromPosition: Int, toPosition: Int)

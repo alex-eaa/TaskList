@@ -1,6 +1,7 @@
-package com.example.tasklist
+package com.example.tasklist.ui
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.tasklist.data.Task
 
 class DiffUtilCallBack(
     private var oldItems: List<Pair<Task, Int>>,

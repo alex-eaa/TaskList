@@ -1,18 +1,20 @@
-package com.example.tasklist
+package com.example.tasklist.ui
 
 import android.graphics.Color
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
-import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.MotionEventCompat
-import com.google.android.material.chip.Chip
+import com.example.tasklist.R
+import com.example.tasklist.data.TYPE_HIGH_PRIORITY
+import com.example.tasklist.data.TYPE_STANDARD_PRIORITY
+import com.example.tasklist.data.Task
 
-class StandardViewHolder(
+class HighViewHolder(
     view: View,
-    private var adapter: RecyclerAdapter
+    private val adapter: RecyclerAdapter
 ) : BaseViewHolder(view) {
 
     override fun bind(dataItem: Pair<Task, Int>) {
@@ -86,6 +88,7 @@ class StandardViewHolder(
     private fun toggleText() {
         adapter.data[layoutPosition] = when (adapter.data[layoutPosition].second) {
             ITEM_STATE_CLOSE -> adapter.data[layoutPosition].first to ITEM_STATE_OPEN
+            ITEM_STATE_OPEN -> adapter.data[layoutPosition].first to ITEM_STATE_CLOSE
             else -> adapter.data[layoutPosition].first to ITEM_STATE_CLOSE
         }
         adapter.notifyItemChanged(layoutPosition)
@@ -104,8 +107,8 @@ class StandardViewHolder(
             adapter.data[layoutPosition].first.position = positionTemp2
             adapter.data[layoutPosition + 1].first.position = positionTemp1
 
-            val element = adapter.data.removeAt(layoutPosition)
 
+            val element = adapter.data.removeAt(layoutPosition)
             adapter.data.add(layoutPosition + 1, element)
 
             adapter.notifyItemMoved(layoutPosition, layoutPosition + 1)
@@ -119,8 +122,8 @@ class StandardViewHolder(
             adapter.data[layoutPosition].first.position = positionTemp2
             adapter.data[layoutPosition - 1].first.position = positionTemp1
 
-            val element = adapter.data.removeAt(layoutPosition)
 
+            val element = adapter.data.removeAt(layoutPosition)
             adapter.data.add(layoutPosition - 1, element)
 
             adapter.notifyItemMoved(layoutPosition, layoutPosition - 1)
@@ -172,8 +175,10 @@ class StandardViewHolder(
             ITEM_STATE_EDIT -> adapter.data[layoutPosition].first to ITEM_STATE_CLOSE
             else -> adapter.data[layoutPosition].first to ITEM_STATE_EDIT
         }
+
         adapter.notifyItemChanged(layoutPosition)
     }
+
 
     override fun onItemSelected() {
         itemView.setBackgroundColor(Color.LTGRAY)

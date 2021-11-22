@@ -2,6 +2,8 @@ package com.example.tasklist
 
 import android.app.Application
 import androidx.room.Room
+import com.example.tasklist.data.TaskDao
+import com.example.tasklist.data.TaskDataBase
 
 
 class App : Application() {

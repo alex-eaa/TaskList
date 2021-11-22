@@ -1,12 +1,15 @@
-package com.example.tasklist
+package com.example.tasklist.ui
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tasklist.R
+import com.example.tasklist.data.TYPE_HIGH_PRIORITY
+import com.example.tasklist.data.TYPE_STANDARD_PRIORITY
+import com.example.tasklist.data.Task
+import com.example.tasklist.ui.*
 
 const val ITEM_STATE_CLOSE = 0
 const val ITEM_STATE_OPEN = 1

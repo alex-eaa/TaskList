@@ -1,7 +1,9 @@
-package com.example.tasklist
+package com.example.tasklist.ui
 
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
+import com.example.tasklist.R
+import com.example.tasklist.data.Task
 
 class HeaderViewHolder(
     view: View
