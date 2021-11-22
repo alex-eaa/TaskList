@@ -27,7 +27,7 @@ class App : Application() {
                             TaskDataBase::class.java,
                             DB_NAME
                         )
-                            .allowMainThreadQueries()
+//                            .allowMainThreadQueries()
                             .build()
                     }
                 }

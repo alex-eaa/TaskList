@@ -1,17 +1,17 @@
 package com.example.tasklist
 
-import androidx.annotation.MainThread
+import android.os.Handler
+import android.os.HandlerThread
 import androidx.lifecycle.*
 import com.example.tasklist.App.Companion.getTaskDao
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import java.nio.ByteOrder
 
 class FirstFragmentViewModel : ViewModel() {
 
-    private val compositeDisposable = CompositeDisposable()
+    private val handlerThread = HandlerThread("HandlerThread")
+
+    init {
+        handlerThread.start()
+    }
 
     private val localRepository: LocalRepository = LocalRepositoryImpl(getTaskDao())
 
@@ -23,43 +23,17 @@ class FirstFragmentViewModel : ViewModel() {
     }
 
     fun insertNewTaskToDB(task: Task) {
-        compositeDisposable.add(
-            Observable
-                .fromCallable { localRepository.insertNewTaskToDB(convertTaskToEntity(task)) }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
-        )
+        Handler(handlerThread.looper)
+            .post { localRepository.insertNewTaskToDB(convertTaskToEntity(task)) }
     }
 
     fun insertAllTasksInDB(listTask: List<Pair<Task, Int>>) {
-        compositeDisposable.add(
-            Observable
-                .fromCallable {
-                    localRepository.insertAllTaskToDB(
-                        convertListPairsTaskEntityToListTask(listTask)
-                    )
-                }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
-        )
-    }
-
-    fun saveAllTasksInDB(listTask: List<Pair<Task, Int>>) {
-                    localRepository.insertAllTaskToDB(
-                        convertListPairsTaskEntityToListTask(listTask))
-    }
-
-    fun deleteTaskFromDB(task: Task) {
-        compositeDisposable.add(
-            Observable
-                .fromCallable { localRepository.deleteTask(convertTaskToEntity(task)) }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
-        )
+        Handler(handlerThread.looper)
+            .post { localRepository.insertAllTaskToDB(convertListPairsTaskEntityToListTask(listTask)) }
     }
 
     override fun onCleared() {
-        compositeDisposable.dispose()
         super.onCleared()
+        handlerThread.quitSafely()
     }
 }
