@@ -2,6 +2,7 @@ package com.example.tasklist
 
 import android.os.Handler
 import android.os.HandlerThread
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.tasklist.App.Companion.getTaskDao
 import com.example.tasklist.data.Task
@@ -9,6 +10,7 @@ import com.example.tasklist.data.TaskEntity
 import com.example.tasklist.repository.LocalRepository
 import com.example.tasklist.repository.LocalRepositoryImpl
 import com.example.tasklist.repository.ORDER_BY_POSITION_DESC
+import kotlinx.coroutines.*
 
 class FirstFragmentViewModel : ViewModel() {
 
@@ -33,8 +35,13 @@ class FirstFragmentViewModel : ViewModel() {
     }
 
     fun insertAllTasksInDB(listTask: List<Pair<Task, Int>>) {
-        Handler(handlerThread.looper)
-            .post { localRepository.insertAllTaskToDB(convertListPairsTaskEntityToListTask(listTask)) }
+        GlobalScope.launch(Dispatchers.IO) {
+            localRepository.insertAllTaskToDB(
+                convertListPairsTaskEntityToListTask(
+                    listTask
+                )
+            )
+        }
     }
 
     override fun onCleared() {

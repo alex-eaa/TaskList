@@ -2,6 +2,7 @@ package com.example.tasklist.ui
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -93,10 +94,10 @@ class FirstFragment : Fragment() {
                     )
                 )
             }
+        }
 
-            binding.fabGetData.setOnClickListener { view ->
-//                viewModel.insertAllTasksInDB(delHeader(adapter.data))
-            }
+        binding.fabSaveData.setOnClickListener { view ->
+            viewModel.insertAllTasksInDB(delHeader(adapter.data))
         }
     }
 
@@ -116,11 +117,13 @@ class FirstFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onStop() {
-        super.onStop()
+        Log.d(TAG, "Fragment onStop()")
         viewModel.insertAllTasksInDB(delHeader(adapter.data))
+        super.onStop()
     }
 
     override fun onDestroyView() {
+        Log.d(TAG, "Fragment onDestroyView()")
         super.onDestroyView()
         _binding = null
     }
