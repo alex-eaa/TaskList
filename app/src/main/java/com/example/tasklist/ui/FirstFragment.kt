@@ -49,7 +49,7 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        Log.d(TAG, "Fragment 11 onCreateView() $this")
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -60,7 +60,7 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         initView()
-
+        Log.d(TAG, "Fragment 11 onViewCreated() $this")
         binding.recyclerView.adapter = adapter
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
@@ -117,14 +117,14 @@ class FirstFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onStop() {
-        Log.d(TAG, "Fragment onStop()")
-        viewModel.insertAllTasksInDB(delHeader(adapter.data))
         super.onStop()
+        Log.d(TAG, "Fragment 11 onStop() $this")
+//        viewModel.insertAllTasksInDB(delHeader(adapter.data))
     }
 
-    override fun onDestroyView() {
-        Log.d(TAG, "Fragment onDestroyView()")
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "Fragment 11 onDestroy() $this")
         _binding = null
     }
 }
