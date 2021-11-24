@@ -49,7 +49,6 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -96,9 +95,9 @@ class FirstFragment : Fragment() {
             }
         }
 
-        binding.fabSaveData.setOnClickListener { view ->
-            viewModel.insertAllTasksInDB(delHeader(adapter.data))
-        }
+//        binding.fabSaveData.setOnClickListener { view ->
+//            viewModel.insertAllTasksInDB(delHeader(adapter.data))
+//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -117,14 +116,12 @@ class FirstFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onStop() {
-        Log.d(TAG, "Fragment onStop()")
-        viewModel.insertAllTasksInDB(delHeader(adapter.data))
         super.onStop()
+        viewModel.insertAllTasksInDB(delHeader(adapter.data))
     }
 
-    override fun onDestroyView() {
-        Log.d(TAG, "Fragment onDestroyView()")
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 }

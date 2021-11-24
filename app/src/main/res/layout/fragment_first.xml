@@ -41,7 +41,7 @@
         android:layout_marginStart="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         android:translationX="70dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:srcCompat="@drawable/ic_baseline_save_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

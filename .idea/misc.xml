@@ -11,7 +11,7 @@
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.3265625" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.3265625" />
         <entry key="app/src/main/res/layout/recycler_item_header.xml" value="0.3265625" />
-        <entry key="app/src/main/res/layout/recycler_item_task.xml" value="0.3265625" />
+        <entry key="app/src/main/res/layout/recycler_item_task.xml" value="0.25" />
         <entry key="app/src/main/res/layout/recycler_item_task_.xml" value="0.3265625" />
         <entry key="app/src/main/res/layout/recycler_item_task_edit.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/recycler_item_task_high_priority.xml" value="0.33" />
@@ -20,7 +20,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
