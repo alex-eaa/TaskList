@@ -5,17 +5,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tasklist.FirstFragmentViewModel
 import com.example.tasklist.R
 import com.example.tasklist.data.TYPE_HIGH_PRIORITY
 import com.example.tasklist.data.TYPE_STANDARD_PRIORITY
 import com.example.tasklist.data.Task
+import com.example.tasklist.delHeader
+import com.example.tasklist.ui.BaseViewHolder.Companion.POSITION_FOR_NEW_TASK
 
 const val ITEM_STATE_CLOSE = 0
 const val ITEM_STATE_OPEN = 1
 const val ITEM_STATE_EDIT = 2
 
 class RecyclerAdapter(
-    val dragListener: OnStartDragListener
+    val dragListener: OnStartDragListener,
+    val firstFragmentViewModel: FirstFragmentViewModel
 ) : RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
 //Для выполнения сравнения в фоновом потоке использовать ListAdapter вместо RecyclerView.Adapter
 
@@ -56,7 +60,8 @@ class RecyclerAdapter(
                     inflater.inflate(
                         R.layout.recycler_item_header,
                         parent, false
-                    ) as View
+                    ) as View,
+                    this
                 )
             }
         }
@@ -71,6 +76,9 @@ class RecyclerAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
+        if (data[position].first.position == POSITION_FOR_NEW_TASK){
+            data[position] = data[position].first to ITEM_STATE_EDIT
+        }
         return data[position].first.type
     }
 
@@ -81,16 +89,17 @@ class RecyclerAdapter(
             data[fromPosition].first.position = data[toPosition].first.position
             data[toPosition].first.position = pos
 
-            val element = data.removeAt(fromPosition)
-            if (toPosition > fromPosition) data.add((toPosition), element)
-            else data.add((toPosition), element)
+            data.removeAt(fromPosition).apply {
+                data.add(toPosition, this)
+            }
+
             notifyItemMoved(fromPosition, toPosition)
         }
     }
 
     override fun onItemDismiss(position: Int) {
-//        firstFragmentViewModel.deleteTaskFromDB(data[position].first)
         data.removeAt(position)
+        firstFragmentViewModel.insertAllTasksInDB(delHeader(data))
         notifyItemRemoved(position)
     }
 

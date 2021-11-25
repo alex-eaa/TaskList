@@ -39,7 +39,8 @@ class FirstFragment : Fragment() {
                 override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
                     itemTouchHelper.startDrag(viewHolder)
                 }
-            }
+            },
+            viewModel
         )
     }
 
@@ -116,7 +117,6 @@ class FirstFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onStop() {
         super.onStop()
         viewModel.insertAllTasksInDB(delHeader(adapter.data))

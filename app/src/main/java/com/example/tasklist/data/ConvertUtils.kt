@@ -56,10 +56,10 @@ fun addHeader(listPairs: List<Pair<Task, Int>>): List<Pair<Task, Int>> {
     return listWithHeader
 }
 
-@RequiresApi(Build.VERSION_CODES.N)
+
 fun delHeader(listPairs: List<Pair<Task, Int>>): List<Pair<Task, Int>> {
     val list = listPairs.toMutableList()
-    list.removeIf {
+    list.removeAll {
             it.first.type == TYPE_HEADER
         }
     return list
