@@ -1,5 +1,6 @@
 package com.example.tasklist.ui
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.MotionEvent
 import android.view.View
@@ -14,9 +15,10 @@ import com.example.tasklist.data.Task
 
 class StandardViewHolder(
     view: View,
-    private var adapter: RecyclerAdapter
-) : BaseViewHolder(view) {
+    adapter: RecyclerAdapter
+) : BaseViewHolder(view, adapter) {
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun bind(dataItem: Pair<Task, Int>) {
         val title = itemView.findViewById<TextView>(R.id.title)
         val titleEdit = itemView.findViewById<TextView>(R.id.title_edit)
@@ -26,6 +28,9 @@ class StandardViewHolder(
         val icDelete = itemView.findViewById<ImageView>(R.id.ic_delete)
         val icSave = itemView.findViewById<ImageView>(R.id.ic_save)
         val icCancel = itemView.findViewById<ImageView>(R.id.ic_cancel)
+        val icArrowDown = itemView.findViewById<ImageView>(R.id.ic_arrow_down)
+        val icArrowUp = itemView.findViewById<ImageView>(R.id.ic_arrow_up)
+        val icDrag = itemView.findViewById<ImageView>(R.id.ic_drag)
         val switchPriority = itemView.findViewById<SwitchCompat>(R.id.switch_priority)
 
         title.text = dataItem.first.title
@@ -70,111 +75,19 @@ class StandardViewHolder(
             }
         }
 
-        itemView.findViewById<ImageView>(R.id.ic_delete).setOnClickListener { removeItem() }
-        itemView.findViewById<ImageView>(R.id.ic_arrow_down).setOnClickListener { moveDown() }
-        itemView.findViewById<ImageView>(R.id.ic_arrow_up).setOnClickListener { moveUp() }
-        itemView.findViewById<ImageView>(R.id.ic_edit).setOnClickListener { editTask() }
-        itemView.findViewById<ImageView>(R.id.ic_save).setOnClickListener { saveTask(dataItem) }
-        itemView.findViewById<ImageView>(R.id.ic_cancel).setOnClickListener { cancel() }
+        icDelete.setOnClickListener { removeItem() }
+        icArrowDown.setOnClickListener { moveDown() }
+        icArrowUp.setOnClickListener { moveUp() }
+        icEdit.setOnClickListener { editTask() }
+        icSave.setOnClickListener { saveTask(dataItem) }
+        icCancel.setOnClickListener { cancel() }
 
-        itemView.findViewById<ImageView>(R.id.ic_drag).setOnTouchListener { _, event ->
+        icDrag.setOnTouchListener { _, event ->
             if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
                 adapter.dragListener.onStartDrag(this)
             }
             false
         }
-    }
-
-    private fun toggleText() {
-        adapter.data[layoutPosition] = when (adapter.data[layoutPosition].second) {
-            ITEM_STATE_CLOSE -> adapter.data[layoutPosition].first to ITEM_STATE_OPEN
-            else -> adapter.data[layoutPosition].first to ITEM_STATE_CLOSE
-        }
-        adapter.notifyItemChanged(layoutPosition)
-    }
-
-    private fun removeItem() {
-        adapter.data.removeAt(layoutPosition)
-        adapter.notifyItemRemoved(layoutPosition)
-    }
-
-    private fun moveDown() {
-        if (layoutPosition < adapter.data.size - 1) {
-
-            val positionTemp1 = adapter.data[layoutPosition].first.position
-            val positionTemp2 = adapter.data[layoutPosition + 1].first.position
-            adapter.data[layoutPosition].first.position = positionTemp2
-            adapter.data[layoutPosition + 1].first.position = positionTemp1
-
-            val element = adapter.data.removeAt(layoutPosition)
-
-            adapter.data.add(layoutPosition + 1, element)
-
-            adapter.notifyItemMoved(layoutPosition, layoutPosition + 1)
-        }
-    }
-
-    private fun moveUp() {
-        if (layoutPosition > 1) {
-            val positionTemp1 = adapter.data[layoutPosition].first.position
-            val positionTemp2 = adapter.data[layoutPosition - 1].first.position
-            adapter.data[layoutPosition].first.position = positionTemp2
-            adapter.data[layoutPosition - 1].first.position = positionTemp1
-
-            val element = adapter.data.removeAt(layoutPosition)
-
-            adapter.data.add(layoutPosition - 1, element)
-
-            adapter.notifyItemMoved(layoutPosition, layoutPosition - 1)
-        }
-    }
-
-    private fun editTask() {
-        adapter.data[layoutPosition] = when (adapter.data[layoutPosition].second) {
-            ITEM_STATE_CLOSE -> adapter.data[layoutPosition].first to ITEM_STATE_EDIT
-            ITEM_STATE_OPEN -> adapter.data[layoutPosition].first to ITEM_STATE_EDIT
-            else -> adapter.data[layoutPosition].first to ITEM_STATE_EDIT
-        }
-        adapter.notifyItemChanged(layoutPosition)
-    }
-
-    private fun saveTask(dataItem: Pair<Task, Int>) {
-        adapter.data[layoutPosition] = when (adapter.data[layoutPosition].second) {
-            ITEM_STATE_EDIT -> {
-                val titleEdit = itemView.findViewById<TextView>(R.id.title_edit)
-                dataItem.first.title = titleEdit.text.toString()
-
-                val contentEdit = itemView.findViewById<TextView>(R.id.content_edit)
-                dataItem.first.content = contentEdit.text.toString()
-
-                val switchPriority = itemView.findViewById<SwitchCompat>(R.id.switch_priority)
-                dataItem.first.type = when (switchPriority.isChecked) {
-                    true -> TYPE_HIGH_PRIORITY
-                    else -> TYPE_STANDARD_PRIORITY
-                }
-                adapter.data[layoutPosition].first to ITEM_STATE_CLOSE
-            }
-            else -> adapter.data[layoutPosition].first to ITEM_STATE_EDIT
-        }
-
-        if (dataItem.first.position == POSITION_FOR_NEW_TASK) {
-            var positionNew = 0
-            adapter.data.forEach {
-                positionNew =
-                    if (it.first.position in (positionNew + 1) until POSITION_FOR_NEW_TASK) it.first.position else positionNew
-            }
-            dataItem.first.position = positionNew + 1
-        }
-
-        adapter.notifyItemChanged(layoutPosition)
-    }
-
-    private fun cancel() {
-        adapter.data[layoutPosition] = when (adapter.data[layoutPosition].second) {
-            ITEM_STATE_EDIT -> adapter.data[layoutPosition].first to ITEM_STATE_CLOSE
-            else -> adapter.data[layoutPosition].first to ITEM_STATE_EDIT
-        }
-        adapter.notifyItemChanged(layoutPosition)
     }
 
     override fun onItemSelected() {

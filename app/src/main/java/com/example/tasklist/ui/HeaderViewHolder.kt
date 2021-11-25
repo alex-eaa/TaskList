@@ -6,8 +6,9 @@ import com.example.tasklist.R
 import com.example.tasklist.data.Task
 
 class HeaderViewHolder(
-    view: View
-) : BaseViewHolder(view) {
+    view: View,
+    adapter: RecyclerAdapter
+) : BaseViewHolder(view, adapter) {
     override fun bind(dataItem: Pair<Task, Int>) {
         itemView.findViewById<AppCompatTextView>(R.id.title).text = dataItem.first.title
     }
