@@ -3,6 +3,7 @@ package com.example.tasklist.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tasklist.R
 import com.example.tasklist.data.TYPE_HIGH_PRIORITY
@@ -21,11 +22,11 @@ class RecyclerAdapter(
     var data: MutableList<Pair<Task, Int>> = mutableListOf()
 
     fun setItemsPair(newItems: List<Pair<Task, Int>>) {
-//        val result = DiffUtil.calculateDiff(DiffUtilCallBack(data, newItems))
-//        result.dispatchUpdatesTo(this)
+        val result = DiffUtil.calculateDiff(DiffUtilCallBack(data, newItems))
+        result.dispatchUpdatesTo(this)
         data.clear()
         data.addAll(newItems)
-        notifyDataSetChanged()
+//        notifyDataSetChanged()
     }
 
 
