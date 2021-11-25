@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.MotionEventCompat
-import com.example.tasklist.*
+import com.example.tasklist.R
 import com.example.tasklist.data.TYPE_HIGH_PRIORITY
 import com.example.tasklist.data.TYPE_STANDARD_PRIORITY
 import com.example.tasklist.data.Task

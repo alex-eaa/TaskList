@@ -2,20 +2,22 @@ package com.example.tasklist.ui
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tasklist.*
+import com.example.tasklist.FirstFragmentViewModel
+import com.example.tasklist.R
+import com.example.tasklist.addHeader
 import com.example.tasklist.data.TYPE_STANDARD_PRIORITY
 import com.example.tasklist.data.Task
 import com.example.tasklist.databinding.FragmentFirstBinding
+import com.example.tasklist.delHeader
 
 
 class FirstFragment : Fragment() {

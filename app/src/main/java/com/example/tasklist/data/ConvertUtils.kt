@@ -2,10 +2,10 @@ package com.example.tasklist
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.tasklist.ui.ITEM_STATE_CLOSE
 import com.example.tasklist.data.TYPE_HEADER
 import com.example.tasklist.data.Task
 import com.example.tasklist.data.TaskEntity
+import com.example.tasklist.ui.ITEM_STATE_CLOSE
 
 
 fun convertTaskToEntity(task: Task): TaskEntity {

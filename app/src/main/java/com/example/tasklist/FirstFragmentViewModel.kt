@@ -2,7 +2,6 @@ package com.example.tasklist
 
 import android.os.Handler
 import android.os.HandlerThread
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.tasklist.App.Companion.getTaskDao
 import com.example.tasklist.data.Task
